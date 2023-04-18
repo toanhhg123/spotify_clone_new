@@ -11,6 +11,11 @@ const login = expressAsyncHandler(async (req, res) => {
 
   const { passwordHash, ...user } = account._doc;
   const accessToken = genergateToken({ ...user });
+  res.cookie("access_token", accessToken, {
+    httpOnly: true,
+    secure: process.env.NODE_ENV === "production",
+  });
+
   return res.json({
     status: "success",
     data: {

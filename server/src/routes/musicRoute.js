@@ -12,6 +12,7 @@ const router = Router();
 router.patch("/changelikes/:id", authenticateJWT(), changeLike);
 
 router.get("/", getAll);
+
 router.post(
   "/",
   uploadImg.fields([{ name: "img" }, { name: "audio" }]),
