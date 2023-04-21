@@ -1,24 +1,27 @@
 import { useEffect, useState } from "react";
-import { getAll } from "../api/music";
+import { Link } from "react-router-dom";
+import { getAll } from "../api/account";
 import PageHeader from "../components/PageHeader";
 
-const Musics = () => {
-  const [musics, setMusics] = useState([])
+const Accounts = () => {
+  const [accounts, setAccount] = useState([])
+
   useEffect(() => {
       getAll().then(({data}) => {
-        setMusics(data)
+        setAccount(data)
       }).catch(e => console.log(e.message)) ;
   }, [])
+  console.log(accounts)
   return (
     <>
-      <PageHeader title="Music" from={"musics"} to={"list"} />
+      <PageHeader title="Accounts" from={"accounts"} to={"list"} />
       
       <div className="row">
 
         <div className="col-lg-12 grid-margin stretch-card">
           <div className="card">
             <div className="card-body">
-              <h4 className="card-title">mussic Table</h4>
+              <h4 className="card-title">Account Table</h4>
               <p className="card-description">
                 {" "}
                 Add class <code>.table</code>
@@ -27,30 +30,29 @@ const Musics = () => {
                 <table className="table">
                   <thead>
                     <tr>
-                      <th>Title</th>
-                      <th>Duration</th>
-                      <th>Release Date</th>
-                      <th>Action</th>
+                      <th>ID</th>
+                      <th>User Name</th>
+                     
+                      <th>Role</th>
                     </tr>
                   </thead>
                   <tbody>
                   {
-                    musics.map(music => {
-                      return <tr key={music._id}>
-                                <td>{music.title}</td>
-                                <td>{music.duration}</td>
-                                <td>{music.releaseDate}</td>
+                    accounts.map(acc => {
+                      return <tr key={acc._id}>
+                                <td>{acc._id}</td>
+                                <td>{acc.userName}</td>
+                                <td>{acc.role}</td>
                                 <td>
-                                  <label className="badge badge-danger">Sửa</label>
+                                    <Link  to={`/Update/Account/${acc._id}`} className='btn btn-danger btn-sm'>Edit</Link>
                                 </td>
                                 <td>
-                                  <label className="badge badge-danger">Xoá</label>
+                                    <label className="badge badge-danger">Xoá</label>
                                 </td>
                               </tr>
                     
                     })
                   }
-                    
                   </tbody>
                 </table>
               </div>
@@ -62,4 +64,4 @@ const Musics = () => {
   );
 };
 
-export default Musics;
+export default Accounts;

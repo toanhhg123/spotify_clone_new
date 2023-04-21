@@ -3,7 +3,7 @@ const Navbar = () => {
     <nav className="navbar p-0 fixed-top d-flex flex-row">
       <div className="navbar-brand-wrapper d-flex d-lg-none align-items-center justify-content-center">
         <a className="navbar-brand brand-logo-mini" href="index.html">
-          <img src="assets/images/logo-mini.svg" alt="logo" />
+          <img src="/assets/images/logo-mini.svg" alt="logo" />
         </a>
       </div>
       <div className="navbar-menu-wrapper flex-grow d-flex align-items-stretch">
@@ -109,7 +109,7 @@ const Navbar = () => {
               <a className="dropdown-item preview-item">
                 <div className="preview-thumbnail">
                   <img
-                    src="assets/images/faces/face4.jpg"
+                    src="/assets/images/faces/face4.jpg"
                     alt="image"
                     className="rounded-circle profile-pic"
                   />
@@ -125,7 +125,7 @@ const Navbar = () => {
               <a className="dropdown-item preview-item">
                 <div className="preview-thumbnail">
                   <img
-                    src="assets/images/faces/face2.jpg"
+                    src="/assets/images/faces/face2.jpg"
                     alt="image"
                     className="rounded-circle profile-pic"
                   />
@@ -141,7 +141,7 @@ const Navbar = () => {
               <a className="dropdown-item preview-item">
                 <div className="preview-thumbnail">
                   <img
-                    src="assets/images/faces/face3.jpg"
+                    src="/assets/images/faces/face3.jpg"
                     alt="image"
                     className="rounded-circle profile-pic"
                   />
@@ -224,7 +224,7 @@ const Navbar = () => {
               <div className="navbar-profile">
                 <img
                   className="img-xs rounded-circle"
-                  src="assets/images/faces/face15.jpg"
+                  src="/assets/images/faces/face15.jpg"
                   alt=""
                 />
                 <p className="mb-0 d-none d-sm-block navbar-profile-name">

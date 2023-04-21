@@ -1,9 +1,10 @@
 import { Outlet } from "react-router";
 import Navbar from "./Navbar";
 import SideBar from "./SideBar";
+
 const Layout = () => {
   return (
-    <div className="container-scroller" style={{ height: "100vh" }}>
+    <div className="container-scroller">
       <SideBar />
       <Navbar />
       <div className="main-panel">
