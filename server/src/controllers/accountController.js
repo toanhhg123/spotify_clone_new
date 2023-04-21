@@ -1,3 +1,4 @@
+const createHttpError = require("http-errors");
 const Account = require("../models/Account");
 const expressAsyncHandler = require("express-async-handler");
 
@@ -9,6 +10,16 @@ const createAccount = expressAsyncHandler(async (req, res) => {
     status: "success",
     data: account,
     message: "add user success",
+  });
+});
+
+const findOne = expressAsyncHandler(async (req, res) => {
+  const account = await Account.findOne({ [req.params.key]: req.params.value });
+  if (!account) throw createHttpError(404, "account not found");
+  return res.json({
+    status: "success",
+    data: account,
+    message: "delete user success",
   });
 });
 
@@ -49,4 +60,5 @@ module.exports = {
   deleteUser,
   updateUser,
   getAllUser,
+  findOne,
 };

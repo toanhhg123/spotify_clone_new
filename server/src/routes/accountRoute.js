@@ -4,8 +4,11 @@ const {
   createAccount,
   updateUser,
   deleteUser,
+  findOne,
 } = require("../controllers/accountController");
 const router = Router();
+
+router.get("/:key/:value", findOne);
 
 router.get("/", getAllUser);
 router.post("/", createAccount);

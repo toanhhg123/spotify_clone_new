@@ -26,7 +26,7 @@ const getAll = expressAsyncHandler(async (req, res) => {
 const getAllShare = expressAsyncHandler(async (req, res) => {
   const { _id } = req.user;
   const albums = await Album.find({
-    $or: [{ users: { $in: _id } }, { auth: _id }],
+    $or: [{ users: { $in: _id } }],
   });
   return res.json({
     status: "success",
@@ -60,10 +60,35 @@ const remove = expressAsyncHandler(async (req, res) => {
   });
 });
 
+const details = expressAsyncHandler(async (req, res) => {
+  const albums = await Album.findById(req.params.id).populate("musics");
+  return res.json({
+    status: "success",
+    data: albums,
+    message: "query album success",
+  });
+});
+
+const addMusic = expressAsyncHandler(async (req, res) => {
+  const album = await Album.findById(req.params.id);
+  if (!album) throw new Error("not found album");
+  album.musics = album.musics.some((x) => x.toString() === req.body.musicId)
+    ? album.musics
+    : [...album.musics, req.body.musicId];
+  await album.save();
+  return res.json({
+    status: "success",
+    data: album,
+    message: "query album success",
+  });
+});
+
 module.exports = {
   create,
   getAll,
   getAllShare,
   remove,
   share,
+  details,
+  addMusic,
 };

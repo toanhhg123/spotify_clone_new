@@ -1,24 +1,22 @@
 import React from "react";
 
 import styled from "styled-components";
-import MusicPlayer from "./MusicPlayer";
-import SingleSong from "./SingleSong";
 import { useGlobalContext } from "../contexts/context";
+import MusicPlayer from "./MusicPlayer";
 
-const AudioList = () => {
-  const { songsList, currentSong, changeSong, changeFavourite } =
-    useGlobalContext();
+const AudioList = ({ childen }) => {
+  const { songsList, currentSong, changeFavourite } = useGlobalContext();
 
   return (
     <Wrapper>
       <h2 className="title">
         The list <span>{songsList.length} songs</span>
       </h2>
-      <div className="songs-container">
+      {/* <div className="songs-container" hidden>
         {songsList.map((item, index) => {
           return (
             <SingleSong
-              key={index}
+              key={item._id}
               currentSong={currentSong}
               changeSong={changeSong}
               changeFavourite={changeFavourite}
@@ -27,7 +25,7 @@ const AudioList = () => {
             />
           );
         })}
-      </div>
+      </div> */}
       <MusicPlayer
         changeFavourite={changeFavourite}
         currentSong={currentSong}

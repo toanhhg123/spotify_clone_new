@@ -21,7 +21,7 @@ app.use(express.static(path.join(__dirname, "src", "public"))); //  "public" off
 
 //middeware header
 
-app.use(cors());
+app.use(cors({ credentials: true, origin: ["http://localhost:3000"] }));
 app.use(cookieParser());
 app.use(bodyParser.json({ limit: "50mb" }));
 app.use(bodyParser.urlencoded({ extended: false }));
@@ -31,7 +31,7 @@ app.use(bodyParser.json());
 connectDB();
 
 //router
-app.use("/v1/account", authMiddleWare(["admin"]), accountRoute);
+app.use("/v1/account", authMiddleWare(), accountRoute);
 app.use("/v1/auth", authRoute);
 app.use("/v1/music", musicRoute);
 app.use("/v1/category", categoryRoute);

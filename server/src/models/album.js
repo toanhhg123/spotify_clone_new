@@ -5,6 +5,10 @@ const albumSchema = new mongoose.Schema({
     type: mongoose.Schema.Types.ObjectId,
     auto: true,
   },
+  name: {
+    type: String,
+    required: true,
+  },
   auth: {
     type: mongoose.Schema.Types.ObjectId,
     ref: "Account",

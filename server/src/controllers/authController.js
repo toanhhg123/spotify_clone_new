@@ -11,8 +11,7 @@ const login = expressAsyncHandler(async (req, res) => {
 
   const { passwordHash, ...user } = account._doc;
   const accessToken = genergateToken({ ...user });
-  res.cookie("access_token", accessToken, {
-    httpOnly: true,
+  res.cookie("accessToken", accessToken, {
     secure: process.env.NODE_ENV === "production",
   });
 
@@ -28,13 +27,14 @@ const login = expressAsyncHandler(async (req, res) => {
 
 const register = expressAsyncHandler(async (req, res) => {
   const { userName, password } = req.body;
-  const account = await Account.create({ userName, passwordHash: password });
+  const account = new Account({ userName, passwordHash: password });
+  await account.save();
   const { passwordHash, ...user } = account._doc;
   const accessToken = genergateToken({ ...user });
   return res.json({
     status: "success",
     data: {
-      account: user,
+      account: account._doc,
       accessToken,
     },
     message: "login success",

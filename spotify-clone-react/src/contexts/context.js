@@ -1,9 +1,9 @@
-import React, { useContext, useState, useRef, useEffect } from "react";
-import { getAllSong } from "../api";
+import React, { useContext, useEffect, useRef, useState } from "react";
 const AppContext = React.createContext();
 
+const initSongs = [{}];
 const AppProvider = ({ children }) => {
-  const [songsList, setSongsList] = useState([{}]);
+  const [songsList, setSongsList] = useState(initSongs);
   const [indexOfSong, setIndexOfSong] = useState(0);
   const [currentSong, setCurrentSong] = useState(songsList[indexOfSong]);
   const [isPlaying, setIsPlaying] = useState(false);
@@ -32,6 +32,7 @@ const AppProvider = ({ children }) => {
   };
 
   const changePlayState = () => {
+    if (songsList === initSongs) return;
     setIsPlaying(!isPlaying);
     if (!isPlaying) {
       audioPlayer.current.play();
@@ -48,30 +49,25 @@ const AppProvider = ({ children }) => {
     audioPlayer.current.volume = convertedVolume;
   };
   const nextSong = () => {
-    console.log("next");
-    setIndexOfSong((oldIndex) => {
-      if (oldIndex >= songsList.length - 1) {
-        return 0;
-      } else {
-        return oldIndex + 1;
-      }
-    });
-    setCurrentSong(songsList[indexOfSong]);
+    if (songsList === initSongs) return;
+    let songIndex = 0;
+    if (indexOfSong < songsList.length - 1) songIndex = indexOfSong + 1;
+    setIndexOfSong(songIndex);
+    setCurrentSong(songsList[songIndex]);
     playSong();
   };
   const previousSong = () => {
-    console.log("prev");
-    setIndexOfSong((oldIndex) => {
-      if (oldIndex <= 1) {
-        return 0;
-      } else {
-        return oldIndex - 1;
-      }
-    });
-    setCurrentSong(songsList[indexOfSong]);
+    if (songsList === initSongs) return;
+    let songIndex = songsList.length - 1;
+    if (indexOfSong > 0) songIndex = indexOfSong - 1;
+
+    setIndexOfSong(songIndex);
+    setCurrentSong(songsList[songIndex]);
+    playSong();
   };
 
   const whilePlaying = () => {
+    if (songsList === initSongs) return;
     progressBar.current.value = audioPlayer.current.currentTime;
     changeCurrentTime();
     animationRef.current = requestAnimationFrame(whilePlaying);
@@ -85,19 +81,20 @@ const AppProvider = ({ children }) => {
   };
 
   const playSong = () => {
-    audioPlayer.current.pause();
-    audioPlayer.current.play();
+    audioPlayer?.current?.play();
     animationRef.current = requestAnimationFrame(whilePlaying);
   };
 
   useEffect(() => {
+    if (songsList === initSongs) return;
     const seconds = Math.floor(audioPlayer.current.duration);
     setDuration(seconds);
     progressBar.current.max = seconds;
   }, [
     currentSong,
-    audioPlayer?.current?.loadedmetadata,
-    audioPlayer?.current?.readyState,
+    audioPlayer.current?.loadedmetadata,
+    audioPlayer.current?.readyState,
+    songsList,
   ]);
 
   const CalculateTime = (num) => {
@@ -110,8 +107,7 @@ const AppProvider = ({ children }) => {
   };
 
   useEffect(() => {
-    console.log({ currentTime, duration });
-    if (currentTime >= duration) {
+    if (currentTime >= duration && songsList !== initSongs) {
       nextSong();
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -127,13 +123,6 @@ const AppProvider = ({ children }) => {
     audioPlayer?.current?.loadedmetadata,
     audioPlayer?.current?.readyState,
   ]);
-
-  useEffect(() => {
-    getAllSong().then(({ data }) => {
-      setSongsList(data);
-      setCurrentSong(data[0]);
-    });
-  }, []);
 
   return (
     <AppContext.Provider
@@ -157,6 +146,7 @@ const AppProvider = ({ children }) => {
         changeVolume,
         nextSong,
         previousSong,
+        setSongsList,
       }}
     >
       {children}

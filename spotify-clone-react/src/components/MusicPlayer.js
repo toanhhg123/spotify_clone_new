@@ -152,13 +152,17 @@ const MusicPlayer = ({ currentSong }) => {
 const Wrapper = styled.section`
   width: 100%;
   padding: 10px;
-  padding-top: 20px;
   display: flex;
+  margin-top: 10px;
+  background-color: rgba(0, 0, 0, 0.3);
+  display: flex;
+  justify-content: center;
+  align-items: center;
   .song-image {
     width: 120px;
     min-width: 120px;
     height: 80px;
-    border-radius: 10px;
+    border-radius: 0;
     overflow: hidden;
     box-shadow: 0px 0px 20px rgba(0, 0, 0, 0.4);
 
