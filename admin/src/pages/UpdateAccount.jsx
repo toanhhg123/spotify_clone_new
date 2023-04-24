@@ -12,7 +12,7 @@ const UpdateAccount = () => {
   const navigate = useNavigate();
   const handelSumit = (e)=>{
     e.preventDefault()
-    update({_id:id,userName:userName,password:password}).then(() => navigate('/accounts')).catch(e => alert(e.message));
+    update({_id:account._id,userName:userName,password:password}).then(() => navigate('/accounts')).catch(e => alert(e.message));
   }
   useEffect(() => {
         findone({_id:id}).then(({data}) => {
@@ -30,7 +30,7 @@ const UpdateAccount = () => {
             <div className="form-group">
               <label htmlFor="exampleInputName1">ID</label>
               <input
-                placeholder={account._id}
+                value={account._id}
                 type="text"
                 className="form-control"
                 id="exampleInputName1"
@@ -67,7 +67,7 @@ const UpdateAccount = () => {
             <div className="form-group">
               <label htmlFor="exampleInputRole5">Role</label>
               <input
-            
+
                 type="text"
                 className="form-control"
                 id="exampleInputRole5"
