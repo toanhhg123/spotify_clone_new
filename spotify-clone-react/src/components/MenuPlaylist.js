@@ -1,22 +1,25 @@
-import React from "react";
-import styled from "styled-components";
-import { FaPlus } from "react-icons/fa";
+import React, { useEffect, useState } from "react";
 import { BsMusicNoteList, BsTrash } from "react-icons/bs";
-import playlist from "../assets/playlist";
+import styled from "styled-components";
+import { getAllPlayList } from "../api";
+import { Link } from "react-router-dom";
 const MenuPlaylist = () => {
+  const [playlist, setPlaylist] = useState([]);
+  useEffect(() => {
+    getAllPlayList().then(({ data }) => {
+      setPlaylist(data);
+    });
+  }, []);
   return (
     <Wrapper className="menu-playlist">
-      <div className="name-container">
+      <Link to={"/playlist"} className="name-container">
         <p>PlayList</p>
-        <i>
-          <FaPlus />
-        </i>
-      </div>
+      </Link>
       <div className="playList-scroll">
         {playlist.map((item) => {
-          const { id, name } = item;
+          const { _id, name } = item;
           return (
-            <div key={id} className="playlist">
+            <div key={_id} className="playlist">
               <i>
                 <BsMusicNoteList />
               </i>

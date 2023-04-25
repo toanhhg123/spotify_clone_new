@@ -14,6 +14,8 @@ import { useGlobalContext } from "./contexts/context";
 import React, { useEffect } from "react";
 import { getAllSong } from "./api";
 import AlbumShared from "./pages/AlbumShared";
+import Playlist from "./pages/Playlist";
+import DetailPlaylist from "./pages/DetailsPlaylist";
 function App() {
   const { setSongsList, setCurrentSong } = useGlobalContext();
 
@@ -31,8 +33,9 @@ function App() {
           <Route element={<Home />} path="/" />
           <Route path="" element={<PrivateRoute />}>
             <Route element={<Album />} path="/album" />
+            <Route element={<Playlist />} path="/playlist" />
+            <Route element={<DetailPlaylist />} path="/playlist/:id" />
             <Route element={<AlbumShared />} path="/shared" />
-
             <Route element={<DetailsAlbum />} path="/album/:id" />
           </Route>
           <Route element={<Home />} path="/home" />

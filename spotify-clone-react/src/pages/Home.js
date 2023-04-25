@@ -1,9 +1,10 @@
 import React, { useEffect } from "react";
+import { useLocation } from "react-router-dom";
 import styled from "styled-components";
-import { getAllSong } from "../api";
+import { getAllSong, querySong } from "../api";
 import CardSong from "../components/CardSong";
 import { useGlobalContext } from "../contexts/context";
-
+import { toast } from "react-toastify";
 const Home = () => {
   const { songsList, setSongsList } = useGlobalContext();
   useEffect(() => {
@@ -11,7 +12,29 @@ const Home = () => {
       setSongsList(data);
     });
   }, [setSongsList]);
-
+  const location = useLocation();
+  const searchKeyword =
+    location.search
+      .match(/search=[\w ]+/)
+      ?.at(0)
+      ?.split("=")
+      ?.at(1) ?? "";
+  useEffect(() => {
+    toast.promise(querySong(searchKeyword), {
+      pending: "loading ....",
+      success: {
+        render({ data }) {
+          setSongsList(data.data);
+          return "query succcess";
+        },
+      },
+      error: {
+        render({ data }) {
+          return data.message;
+        },
+      },
+    });
+  }, [searchKeyword, setSongsList]);
   return (
     <HomeSession>
       <div className="list-song">

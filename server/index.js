@@ -1,6 +1,7 @@
 const express = require("express");
 const app = express();
 const accountRoute = require("./src/routes/accountRoute");
+const playListRoute = require("./src/routes/playListRoute");
 const authRoute = require("./src/routes/authRoute");
 const musicRoute = require("./src/routes/musicRoute");
 const categoryRoute = require("./src/routes/categoryRoute");
@@ -36,7 +37,7 @@ app.use("/v1/auth", authRoute);
 app.use("/v1/music", musicRoute);
 app.use("/v1/category", categoryRoute);
 app.use("/v1/album", albumRoute);
-
+app.use("/v1/playlist", playListRoute);
 //error middleware
 app.use(handleErrorNotFound);
 app.use(errorHandler);

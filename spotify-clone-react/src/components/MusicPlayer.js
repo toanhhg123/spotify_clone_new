@@ -12,6 +12,7 @@ import {
 import { BsDownload } from "react-icons/bs";
 import { useGlobalContext } from "../contexts/context";
 import { combieFile } from "../utils";
+import Cookies from "js-cookie";
 const MusicPlayer = ({ currentSong }) => {
   const { favourite, audioFile, image, singer } = currentSong;
   const [isLoved, setisLoved] = useState(favourite);
@@ -27,17 +28,10 @@ const MusicPlayer = ({ currentSong }) => {
     nextSong,
     previousSong,
   } = useGlobalContext();
+  const token = Cookies.get("accessToken");
   const changeLoved = () => {
     setisLoved(!isLoved);
   };
-
-  // if (isNaN(duration) || !duration || !currentTime) {
-  //     return (
-  //         <div>
-  //             Loading...
-  //         </div>
-  //     )
-  // }
 
   return (
     <Wrapper>
@@ -118,22 +112,24 @@ const MusicPlayer = ({ currentSong }) => {
           </div>
         </div>
         <div className="mobile-download">
-          <div
-            className="favourited"
-            onClick={() => {
-              changeLoved();
-            }}
-          >
-            {isLoved ? (
-              <i>
-                <FaHeart />
-              </i>
-            ) : (
-              <i>
-                <FaRegHeart />
-              </i>
-            )}
-          </div>
+          {token && (
+            <div
+              className="favourited"
+              onClick={() => {
+                changeLoved();
+              }}
+            >
+              {isLoved ? (
+                <i>
+                  <FaHeart />
+                </i>
+              ) : (
+                <i>
+                  <FaRegHeart />
+                </i>
+              )}
+            </div>
+          )}
           <div className="download">
             <i>
               <BsDownload />
