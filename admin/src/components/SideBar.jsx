@@ -1,5 +1,6 @@
 import { Link } from "react-router-dom";
 
+
 const SideBar = () => {
   return (
     <nav className="sidebar sidebar-offcanvas" id="sidebar">
@@ -109,6 +110,7 @@ const SideBar = () => {
                 </Link>
               </li>
               <li className="nav-item">
+                
                 <Link className="nav-link" to="/music/create">
                   Create
                 </Link>
@@ -116,6 +118,36 @@ const SideBar = () => {
             </ul>
           </div>
         </li>
+        <li className="nav-item menu-items">
+          <a
+            className="nav-link"
+            data-toggle="collapse"
+            href="#ui-basic"
+            aria-expanded="false"
+            aria-controls="ui-basic"
+          >
+            <span className="menu-icon">
+              <i className="mdi mdi-laptop"></i>
+            </span>
+            <span className="menu-title">Account</span>
+            <i className="menu-arrow"></i>
+          </a>
+          <div className="collapse" id="ui-basic">
+            <ul className="nav flex-column sub-menu">
+              <li className="nav-item">
+                <Link className="nav-link" to="/accounts">
+                  List
+                </Link>
+              </li>
+              <li className="nav-item">
+                <Link className="nav-link" to="/create/account">
+                  Create
+                </Link>
+              </li>
+            </ul>
+          </div>
+        </li>
+
         {/* <li className="nav-item menu-items">
           <a className="nav-link" href="pages/forms/basic_elements.html">
             <span className="menu-icon">

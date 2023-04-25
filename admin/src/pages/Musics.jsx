@@ -1,19 +1,28 @@
-import { useEffect, useState } from "react";
-import { getAll } from "../api/music";
+import { useEffect } from "react";
+import { deleteMusic, getAll } from "../api/music";
+import LoadingSpinner from "../components/loadingSpinner";
 import PageHeader from "../components/PageHeader";
+import useFetch from "../hooks/useFetch";
 
 const Musics = () => {
-  const [musics, setMusics] = useState([])
+  const [musicState, call] = useFetch();
   useEffect(() => {
-      getAll().then(({data}) => {
-        setMusics(data)
-      }).catch(e => console.log(e.message)) ;
+    call(getAll)
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
   return (
     <>
       <PageHeader title="Music" from={"musics"} to={"list"} />
-      
-      <div className="row">
+      {
+        musicState.loading && <LoadingSpinner />
+      }
+      {
+        musicState.error && <h1 className="text-danger">{musicState.error}</h1>
+      }
+
+      {
+        musicState.payload && 
+      <div className="row" style={{left:0, right:0, margin: 'auto'}}>
 
         <div className="col-lg-12 grid-margin stretch-card">
           <div className="card">
@@ -35,7 +44,7 @@ const Musics = () => {
                   </thead>
                   <tbody>
                   {
-                    musics.map(music => {
+                    musicState.payload.data.map(music => {
                       return <tr key={music._id}>
                                 <td>{music.title}</td>
                                 <td>{music.duration}</td>
@@ -44,7 +53,14 @@ const Musics = () => {
                                   <label className="badge badge-danger">Sửa</label>
                                 </td>
                                 <td>
-                                  <label className="badge badge-danger">Xoá</label>
+                                  <button onClick={(e) => {
+                                            e.preventDefault();
+                                           
+                                            call(deleteMusic({_id: music._id}))
+                                              .then(() => window.location.reload(true))
+                                              .catch((err) => alert(err.message));
+                                          }}  className='btn btn-danger btn-sm'>Delete
+                                  </button>
                                 </td>
                               </tr>
                     
@@ -58,6 +74,7 @@ const Musics = () => {
           </div>
         </div>
       </div>
+      }
     </>
   );
 };
