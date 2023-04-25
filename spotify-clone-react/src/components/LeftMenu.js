@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import styled from "styled-components";
 import { FaSpotify, FaEllipsisH } from "react-icons/fa";
 import { BiSearchAlt } from "react-icons/bi";
@@ -6,7 +6,16 @@ import MenuList from "./MenuList";
 import menuData from "../assets/menuData";
 import MenuPlaylist from "./MenuPlaylist";
 import TrackList from "./TrackList";
+import Cookies from "js-cookie";
+import { useNavigate } from "react-router-dom";
 const LeftMenu = () => {
+  const [search, setSearch] = useState("");
+  const token = Cookies.get("accessToken");
+  const navigate = useNavigate();
+  const handleSubmitSearch = (e) => {
+    e.preventDefault();
+    navigate("/?search=" + search);
+  };
   return (
     <Wrapper className="left-menu">
       <div className="logo-container">
@@ -18,16 +27,21 @@ const LeftMenu = () => {
           <FaEllipsisH />
         </i>
       </div>
-      <div className="search-box">
-        <input type="text" placeholder="Search..." />
+      <form onSubmit={handleSubmitSearch} className="search-box">
+        <input
+          type="text"
+          onChange={(e) => setSearch(e.target.value)}
+          placeholder="Search..."
+        />
         <i>
           <BiSearchAlt />
         </i>
-      </div>
+      </form>
       {/* make it reusable component since we will need it in the future */}
       <MenuList title={"menu"} objectList={menuData} />
+
       {/* PlayList */}
-      <MenuPlaylist />
+      {token && <MenuPlaylist />}
       {/* TrackList */}
       <TrackList />
     </Wrapper>

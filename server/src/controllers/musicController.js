@@ -12,7 +12,17 @@ const getAll = expressAsyncHandler(async (req, res) => {
     message: "query music success",
   });
 });
-
+const query = expressAsyncHandler(async (req, res) => {
+  const search = req.query.search ?? "";
+  const musics = await Music.find({ title: { $regex: search } })
+    .populate("category")
+    .populate("likes", "_id, userName");
+  return res.json({
+    status: "success",
+    data: musics,
+    message: "query music success",
+  });
+});
 const upload = expressAsyncHandler(async (req, res) => {
   try {
     const img = req.files["img"][0].filename;
@@ -69,4 +79,5 @@ module.exports = {
   deleteMusic,
   getAll,
   changeLike,
+  query,
 };

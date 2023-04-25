@@ -4,19 +4,37 @@ import styled from "styled-components";
 import { BsJournalAlbum } from "react-icons/bs";
 import { useGlobalContext } from "../contexts/context";
 import AddList from "./AddList";
-import { addMusics, getAllAlbum } from "../api";
+import {
+  addMusicToPlaylist,
+  addMusics,
+  getAllAlbum,
+  getAllPlayList,
+} from "../api";
 import { toast } from "react-toastify";
 
 const CardSong = ({ song }) => {
   const { changeSong } = useGlobalContext();
   const [showListAlbum, setShowListAlbum] = useState(false);
   const [albums, setAlbums] = useState([]);
+  const [playlist, setPlaylist] = useState([]);
+  const [showModalPlaylist, setShowmodalPlaylist] = useState(false);
 
   const handleChangSong = () => {
     changeSong(song._id);
   };
   const handleClickAlbum = () => {
     setShowListAlbum(true);
+  };
+  const handleAddMusicToPlaylist = (playlistid) => {
+    toast.promise(addMusicToPlaylist(playlistid, { musicId: song._id }), {
+      pending: "...loading",
+      success: "add music success",
+      error: {
+        render({ data }) {
+          return data.message;
+        },
+      },
+    });
   };
   const handleSubmitAddToAlbum = (albumId) => {
     toast.promise(addMusics(albumId, { musicId: song._id }), {
@@ -30,8 +48,16 @@ const CardSong = ({ song }) => {
     });
   };
   useEffect(() => {
-    if (showListAlbum) getAllAlbum().then(({ data }) => setAlbums(data));
-  }, [showListAlbum]);
+    if (showListAlbum)
+      getAllAlbum()
+        .then(({ data }) => setAlbums(data))
+        .catch((e) => toast.error(e.message));
+    if (showModalPlaylist) {
+      getAllPlayList()
+        .then(({ data }) => setPlaylist(data))
+        .catch((e) => toast.error(e.message));
+    }
+  }, [showListAlbum, showModalPlaylist]);
   return (
     <SongCard className="list-song-card" onClick={handleChangSong}>
       {showListAlbum && albums.length > 0 && (
@@ -43,13 +69,25 @@ const CardSong = ({ song }) => {
         />
       )}
 
+      {showModalPlaylist && playlist.length > 0 && (
+        <AddList
+          list={playlist}
+          show={showModalPlaylist}
+          onClose={() => setShowmodalPlaylist(false)}
+          handleSubmit={handleAddMusicToPlaylist}
+        />
+      )}
+
       <img src={`${process.env.REACT_APP_BASE_API}/img/${song.image}`} alt="" />
       <h6>{song.title}</h6>
       <p>{song.singer}</p>
       <div className="lsc__action album" onClick={handleClickAlbum}>
         <BsJournalAlbum />
       </div>
-      <div className="lsc__action playlist">
+      <div
+        className="lsc__action playlist"
+        onClick={() => setShowmodalPlaylist(true)}
+      >
         <RiPlayListAddLine />
       </div>
     </SongCard>

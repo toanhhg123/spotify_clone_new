@@ -5,10 +5,10 @@ const SideBar = () => {
     <nav className="sidebar sidebar-offcanvas" id="sidebar">
       <div className="sidebar-brand-wrapper d-none d-lg-flex align-items-center justify-content-center fixed-top">
         <a className="sidebar-brand brand-logo" href="index.html">
-          <img src="assets/images/logo.svg" alt="logo" />
+          <img src="/assets/images/logo.svg" alt="logo" />
         </a>
         <a className="sidebar-brand brand-logo-mini" href="index.html">
-          <img src="assets/images/logo-mini.svg" alt="logo" />
+          <img src="/assets/images/logo-mini.svg" alt="logo" />
         </a>
       </div>
       <ul className="nav">
@@ -18,7 +18,7 @@ const SideBar = () => {
               <div className="count-indicator">
                 <img
                   className="img-xs rounded-circle"
-                  src="assets/images/faces/face15.jpg"
+                  src="/assets/images/faces/face15.jpg"
                   alt=""
                 />
                 <span className="count bg-success"></span>
@@ -110,7 +110,7 @@ const SideBar = () => {
               </li>
               <li className="nav-item">
                 <Link className="nav-link" to="/music/create">
-                  Dropdowns
+                  Create
                 </Link>
               </li>
             </ul>
