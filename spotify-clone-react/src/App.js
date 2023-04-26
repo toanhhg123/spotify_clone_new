@@ -16,6 +16,7 @@ import { getAllSong } from "./api";
 import AlbumShared from "./pages/AlbumShared";
 import Playlist from "./pages/Playlist";
 import DetailPlaylist from "./pages/DetailsPlaylist";
+import Trending from "./pages/Trending";
 function App() {
   const { setSongsList, setCurrentSong } = useGlobalContext();
 
@@ -39,6 +40,7 @@ function App() {
             <Route element={<DetailsAlbum />} path="/album/:id" />
           </Route>
           <Route element={<Home />} path="/home" />
+          <Route element={<Trending />} path="/trending" />
           <Route element={<Login />} path="/Login" />
         </Routes>
       </MainContainer>

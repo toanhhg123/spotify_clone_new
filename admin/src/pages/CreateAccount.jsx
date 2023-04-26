@@ -1,7 +1,6 @@
 import { useState } from "react";
 import { insert } from "../api/account";
 import LoadingSpinner from "../components/loadingSpinner";
-import Toast from "../components/Toast";
 import useFetch from "../hooks/useFetch";
 
 const CreateAccount = () => {
@@ -9,9 +8,8 @@ const CreateAccount = () => {
   const [userName, setUserName] = useState("");
   const [passwordHash, setPasswordHash] = useState("");
   const handleCreateUser = async () => {
-    return( await insert({ userName: userName, passwordHash: passwordHash }))
-
-  }
+    return await insert({ userName: userName, passwordHash: passwordHash });
+  };
   const handelSumit = async (e) => {
     e.preventDefault();
     await call(handleCreateUser);
@@ -22,7 +20,7 @@ const CreateAccount = () => {
       {accountState.error && (
         <h1 className="text-danger">{accountState.error}</h1>
       )}
-      {accountState.payload?.message && <Toast massage={accountState.payload.message} type={accountState.payload.status}/> }
+
       <div className="col-12 grid-margin stretch-card">
         <div className="card">
           <div className="card-body">
@@ -57,7 +55,9 @@ const CreateAccount = () => {
                 <button type="submit" className="btn btn-primary mr-2">
                   Submit
                 </button>
-                <button type="button" className="btn btn-dark">Cancel</button>
+                <button type="button" className="btn btn-dark">
+                  Cancel
+                </button>
               </form>
             )}
           </div>

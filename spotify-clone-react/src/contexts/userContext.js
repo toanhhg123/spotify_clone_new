@@ -6,13 +6,26 @@ const UserContext = createContext();
 
 export const UserContextProvider = ({ children }) => {
   const [userToken, setUserToken] = useState(null);
-  const accessToken = Cookies.get("accessToken");
   useEffect(() => {
-    var decoded = jwt_decode(accessToken);
-    setUserToken(decoded);
-  }, [accessToken, setUserToken]);
+    loadToken();
+  }, []);
+  const loadToken = () => {
+    try {
+      const accessToken = Cookies.get("accessToken");
+      const decoded = jwt_decode(accessToken);
+      setUserToken(decoded);
+    } catch (error) {
+      setUserToken(null);
+    }
+  };
+  const removeToken = () => {
+    Cookies.remove("accessToken");
+    loadToken();
+  };
   return (
-    <UserContext.Provider value={userToken}>{children}</UserContext.Provider>
+    <UserContext.Provider value={{ userToken, loadToken, removeToken }}>
+      {children}
+    </UserContext.Provider>
   );
 };
 

@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 import {
   FaRegHeart,
@@ -13,9 +13,18 @@ import { BsDownload } from "react-icons/bs";
 import { useGlobalContext } from "../contexts/context";
 import { combieFile } from "../utils";
 import Cookies from "js-cookie";
+import { useUserContext } from "../contexts/userContext";
+import { toast } from "react-toastify";
+import { changeLove } from "../api";
 const MusicPlayer = ({ currentSong }) => {
-  const { favourite, audioFile, image, singer } = currentSong;
-  const [isLoved, setisLoved] = useState(favourite);
+  const { audioFile, image, singer } = currentSong;
+  const { userToken } = useUserContext();
+  const [isLoved, setisLoved] = useState(false);
+  useEffect(() => {
+    if (userToken && currentSong?.likes?.some((x) => x._id === userToken._id))
+      setisLoved(true);
+    else setisLoved(false);
+  }, [currentSong, userToken]);
   const {
     isPlaying,
     duration,
@@ -30,7 +39,20 @@ const MusicPlayer = ({ currentSong }) => {
   } = useGlobalContext();
   const token = Cookies.get("accessToken");
   const changeLoved = () => {
-    setisLoved(!isLoved);
+    toast.promise(changeLove(currentSong._id), {
+      pending: "loading...",
+      success: {
+        render({ data }) {
+          setisLoved(!isLoved);
+          return "change love success";
+        },
+      },
+      error: {
+        render({ data }) {
+          return data.message;
+        },
+      },
+    });
   };
 
   return (
@@ -46,26 +68,30 @@ const MusicPlayer = ({ currentSong }) => {
         />
         <div className="top">
           <div className="left">
-            <div
-              className="favourited"
-              onClick={() => {
-                changeLoved();
-              }}
-            >
-              {isLoved ? (
-                <i>
-                  <FaHeart />
-                </i>
-              ) : (
-                <i>
-                  <FaRegHeart />
-                </i>
-              )}
-            </div>
+            {userToken && (
+              <div
+                className="favourited"
+                onClick={() => {
+                  changeLoved();
+                }}
+              >
+                {isLoved ? (
+                  <i>
+                    <FaHeart />
+                  </i>
+                ) : (
+                  <i>
+                    <FaRegHeart />
+                  </i>
+                )}
+              </div>
+            )}
             <div className="download">
-              <i>
-                <BsDownload />
-              </i>
+              <a href={combieFile("audio", audioFile)} download={true}>
+                <i>
+                  <BsDownload />
+                </i>
+              </a>
             </div>
           </div>
           <div className="middle">
@@ -217,12 +243,10 @@ const Wrapper = styled.section`
         }
       }
       .playPause {
-        width: 30px;
-        height: 30px;
-        min-width: 30px;
-        border-radius: 100%;
+        width: 40px;
+        height: 40px;
+        border-radius: 50%;
         background: #f1f1f1;
-        position: relative;
         display: flex;
         justify-content: center;
         align-items: center;

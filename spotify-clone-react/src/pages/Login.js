@@ -5,8 +5,10 @@ import { Navigate, useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import styled from "styled-components";
 import { login, register } from "../api";
+import { useUserContext } from "../contexts/userContext";
 
 const Login = () => {
+  const { loadToken } = useUserContext();
   const [user, setUser] = useState({ userName: "", password: "" });
   const [type, setType] = useState("login");
 
@@ -20,6 +22,7 @@ const Login = () => {
       else auth = await register(user);
       toast.dismiss();
       toast.success("Login success");
+      loadToken();
       navigate("/login");
     } catch (error) {
       toast.dismiss();

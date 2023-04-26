@@ -1,6 +1,6 @@
-import { BsFillHouseFill, BsJournalAlbum } from "react-icons/bs";
-import { FaBroadcastTower, FaMicrophoneAlt, FaPodcast } from "react-icons/fa";
 import { BiPulse } from "react-icons/bi";
+import { BsFillHouseFill, BsJournalAlbum } from "react-icons/bs";
+import { FaPodcast } from "react-icons/fa";
 const menuData = [
   {
     id: 1,
@@ -11,16 +11,6 @@ const menuData = [
     id: 2,
     icon: <BiPulse />,
     name: "Trending",
-  },
-  {
-    id: 3,
-    icon: <FaBroadcastTower />,
-    name: "Radio",
-  },
-  {
-    id: 4,
-    icon: <FaMicrophoneAlt />,
-    name: "Artist",
   },
   {
     id: 5,

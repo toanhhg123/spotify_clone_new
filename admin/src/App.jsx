@@ -15,16 +15,15 @@ import Toast from "./components/Toast";
 import { useCookies } from "react-cookie";
 
 const App = () => {
-  const [cookies, setCookie] = useCookies(['accessToken']);
+  const [cookies] = useCookies(["accessToken"]);
 
   const accessToken = cookies.accessToken;
-  if(!accessToken){
-    return <Login/>
+  if (!accessToken) {
+    return <Login />;
   }
   return (
     <Routes>
       <Route path="/" element={<Layout />}>
-        
         <Route index element={<Dashboard />} />
         <Route path="/accounts" element={<Accounts />} />
         <Route path="/create/account" element={<CreateAccount />} />
@@ -32,7 +31,7 @@ const App = () => {
         <Route path="/music/create" element={<CreateMusic />} />
         <Route path="/musics" element={<Musics />} />
         <Route path="/category" element={<Category />} />
-        <Route path="/Toast" element={<Toast/>}/>
+        <Route path="/Toast" element={<Toast />} />
       </Route>
       <Route path="/Login" element={<Login />} />
       <Route path="/Error404" element={<Error404 />} />

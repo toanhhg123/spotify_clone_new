@@ -32,21 +32,19 @@ export const insert = async ({ userName, passwordHash }) => {
   }
 };
 
-export const update = async ({ _id, userName, password }) => {
+export const update = async (body) => {
   try {
-    await server.patch(`/account/${_id}`, {
-      userName: userName,
-      password: password,
-    });
+    const { data } = await server.patch(`/account/${body._id}`, body);
+    return data;
   } catch (error) {
     const message = error?.response?.data?.message ?? error.message;
     throw new Error(message);
   }
 };
 
-export const deleteAccount = async ({ _id }) => {
+export const deleteAccount = async (_id) => {
   try {
-    const {data} = await server.delete(`/account/${_id}`);
+    const { data } = await server.delete(`/account/${_id}`);
     return data;
   } catch (error) {
     const message = error?.response?.data?.message ?? error.message;

@@ -22,7 +22,12 @@ app.use(express.static(path.join(__dirname, "src", "public"))); //  "public" off
 
 //middeware header
 
-app.use(cors({ credentials: true, origin: ["http://localhost:3000"] }));
+app.use(
+  cors({
+    credentials: true,
+    origin: ["http://localhost:3000", "http://localhost:3001"],
+  })
+);
 app.use(cookieParser());
 app.use(bodyParser.json({ limit: "50mb" }));
 app.use(bodyParser.urlencoded({ extended: false }));

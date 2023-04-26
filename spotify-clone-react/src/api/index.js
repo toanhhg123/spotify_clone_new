@@ -173,3 +173,13 @@ export const addMusicToPlaylist = async (id, body) => {
     throw Error(message);
   }
 };
+
+export const changeLove = async (_id) => {
+  try {
+    const { data } = await spotifyApi.patch("/v1/music/changelikes/" + _id);
+    return data;
+  } catch (error) {
+    const message = error?.response?.data?.message || error.message;
+    throw Error(message);
+  }
+};

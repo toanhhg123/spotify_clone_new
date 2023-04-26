@@ -22,7 +22,7 @@ const LeftMenu = () => {
         <i>
           <FaSpotify />
         </i>
-        <h2>Spotify</h2>
+        <h2>Musics</h2>
         <i>
           <FaEllipsisH />
         </i>

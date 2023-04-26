@@ -25,6 +25,7 @@ const query = expressAsyncHandler(async (req, res) => {
 });
 const upload = expressAsyncHandler(async (req, res) => {
   try {
+    console.log(req.files);
     const img = req.files["img"][0].filename;
     const audio = req.files["audio"][0].filename;
     const music = new Music(req.body);
