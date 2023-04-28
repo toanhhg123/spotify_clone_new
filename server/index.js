@@ -6,6 +6,7 @@ const authRoute = require("./src/routes/authRoute");
 const musicRoute = require("./src/routes/musicRoute");
 const categoryRoute = require("./src/routes/categoryRoute");
 const albumRoute = require("./src/routes/albumRoute");
+const paymentRoute = require("./src/routes/vnpayRoute");
 const {
   errorHandler,
   handleErrorNotFound,
@@ -32,9 +33,9 @@ app.use(cookieParser());
 app.use(bodyParser.json({ limit: "50mb" }));
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
-
+//localhost:3000"
 // database conection
-connectDB();
+http: connectDB();
 
 //router
 app.use("/v1/account", authMiddleWare(), accountRoute);
@@ -43,6 +44,7 @@ app.use("/v1/music", musicRoute);
 app.use("/v1/category", categoryRoute);
 app.use("/v1/album", albumRoute);
 app.use("/v1/playlist", playListRoute);
+app.use("/v1/payment", paymentRoute);
 //error middleware
 app.use(handleErrorNotFound);
 app.use(errorHandler);

@@ -28,6 +28,10 @@ const musicSchema = new mongoose.Schema(
       type: String,
       required: true,
     },
+    isVip: {
+      type: mongoose.Schema.Types.Boolean,
+      default: false,
+    },
     audioFile: {
       type: String,
       required: true,

@@ -3,10 +3,25 @@ import { FaSun } from "react-icons/fa";
 import styled from "styled-components";
 import { useUserContext } from "../contexts/userContext";
 import profileImg from "../img/profile.jpg";
+import { createPayment } from "../api";
+import { useNavigate } from "react-router-dom";
 const RightMenu = () => {
   const { userToken, removeToken } = useUserContext();
+
   const handleLogout = () => {
     removeToken();
+  };
+  const navigate = useNavigate();
+  const handlePremium = () => {
+    createPayment({
+      userId: userToken._id,
+      amount: 500000 * 10,
+      locale: "vn",
+      bankCode: "NCB",
+    }).then((data) => {
+      removeToken();
+      document.location.href = data;
+    });
   };
   return (
     <Wrapper>
@@ -17,6 +32,11 @@ const RightMenu = () => {
         {userToken && (
           <button className="btn-logout" onClick={handleLogout}>
             logout
+          </button>
+        )}{" "}
+        {userToken && !userToken.isVip && (
+          <button className="btn-logout" onClick={handlePremium}>
+            Premium
           </button>
         )}
         <div className="profile-image">

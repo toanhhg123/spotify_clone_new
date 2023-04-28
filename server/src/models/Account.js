@@ -15,6 +15,10 @@ const userSchema = new mongoose.Schema({
     required: true,
     unique: true,
   },
+  isVip: {
+    type: mongoose.Schema.Types.Boolean,
+    default: false,
+  },
   role: {
     type: String,
     required: true,

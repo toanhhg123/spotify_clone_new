@@ -7,6 +7,7 @@ import useFetch from "../hooks/useFetch";
 const CreateMusic = () => {
   const [singer, setSinger] = useState("");
   const [title, setTitle] = useState("");
+  const [vip, setVip] = useState(false);
   const [duration, setDuration] = useState("");
   const [img, setImg] = useState(null);
   const [audio, setAudio] = useState(null);
@@ -19,6 +20,7 @@ const CreateMusic = () => {
       duration: duration,
       img: img,
       audio: audio,
+      isVip: vip,
     });
   };
   const handelOnSubmit = async (e) => {
@@ -147,6 +149,35 @@ const CreateMusic = () => {
                   className="form-control"
                 />
               </div>
+              <div className="form-group">
+                <div className="form-check">
+                  <label className="form-check-label">
+                    <input
+                      type="radio"
+                      className="form-check-input"
+                      name="vipCheck"
+                      id="vipCheck1"
+                      checked={!vip}
+                      onChange={() => setVip(false)}
+                    />{" "}
+                    Normal <i className="input-helper"></i>
+                  </label>
+                </div>
+                <div className="form-check">
+                  <label className="form-check-label">
+                    <input
+                      type="radio"
+                      className="form-check-input"
+                      name="vipCheck"
+                      id="vipCheck2"
+                      checked={vip}
+                      onChange={() => setVip(true)}
+                    />{" "}
+                    Vip <i className="input-helper"></i>
+                  </label>
+                </div>
+              </div>
+
               <button type="submit" className="btn btn-primary mr-2">
                 Submit
               </button>

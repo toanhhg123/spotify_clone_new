@@ -23,7 +23,9 @@ export const UserContextProvider = ({ children }) => {
     loadToken();
   };
   return (
-    <UserContext.Provider value={{ userToken, loadToken, removeToken }}>
+    <UserContext.Provider
+      value={{ userToken, loadToken, removeToken, setUserToken }}
+    >
       {children}
     </UserContext.Provider>
   );

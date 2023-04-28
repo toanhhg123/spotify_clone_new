@@ -33,6 +33,7 @@ const Musics = () => {
                         <th>Title</th>
                         <th>Duration</th>
                         <th>Release Date</th>
+                        <th>Type</th>
                         <th>Action</th>
                       </tr>
                     </thead>
@@ -43,6 +44,7 @@ const Musics = () => {
                             <td>{music.title}</td>
                             <td>{music.duration}</td>
                             <td>{music.releaseDate}</td>
+                            <td>{music.isVip ? "Vip" : "Nomal"}</td>
                             <td>
                               <button
                                 onClick={(e) => {

@@ -1,8 +1,10 @@
 import React, { useContext, useEffect, useRef, useState } from "react";
+import { useUserContext } from "./userContext";
 const AppContext = React.createContext();
 
 const initSongs = [{}];
 const AppProvider = ({ children }) => {
+  const { userToken } = useUserContext();
   const [songsList, setSongsList] = useState(initSongs);
   const [indexOfSong, setIndexOfSong] = useState(0);
   const [currentSong, setCurrentSong] = useState(songsList[indexOfSong]);
@@ -17,6 +19,7 @@ const AppProvider = ({ children }) => {
 
   const changeSong = (_id) => {
     const index = songsList.findIndex((item) => item._id === _id);
+
     setCurrentSong(songsList[index]);
     setIndexOfSong(index);
   };
@@ -52,6 +55,7 @@ const AppProvider = ({ children }) => {
     if (songsList === initSongs) return;
     let songIndex = 0;
     if (indexOfSong < songsList.length - 1) songIndex = indexOfSong + 1;
+
     setIndexOfSong(songIndex);
     setCurrentSong(songsList[songIndex]);
     playSong();
@@ -68,6 +72,7 @@ const AppProvider = ({ children }) => {
 
   const whilePlaying = () => {
     if (songsList === initSongs) return;
+
     progressBar.current.value = audioPlayer.current.currentTime;
     changeCurrentTime();
     animationRef.current = requestAnimationFrame(whilePlaying);
@@ -87,6 +92,7 @@ const AppProvider = ({ children }) => {
 
   useEffect(() => {
     if (songsList === initSongs) return;
+
     const seconds = Math.floor(audioPlayer.current.duration);
     setDuration(seconds);
     progressBar.current.max = seconds;
@@ -110,6 +116,7 @@ const AppProvider = ({ children }) => {
     if (currentTime >= duration && songsList !== initSongs) {
       nextSong();
     }
+
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [currentTime]);
 
@@ -123,6 +130,13 @@ const AppProvider = ({ children }) => {
     audioPlayer?.current?.loadedmetadata,
     audioPlayer?.current?.readyState,
   ]);
+
+  useEffect(() => {
+    if (currentSong?.isVip && (!userToken || !userToken.isVip)) {
+      if (indexOfSong < songsList.length - 1) nextSong();
+      else audioPlayer?.current?.pause();
+    }
+  }, [currentSong?.isVip, indexOfSong, nextSong, songsList.length, userToken]);
 
   return (
     <AppContext.Provider

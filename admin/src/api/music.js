@@ -17,6 +17,7 @@ export const insert = async (music) => {
     formdata.append("singer", music.singer);
     formdata.append("title", music.title);
     formdata.append("duration", music.duration);
+    formdata.append("isVip", music.isVip);
 
     const { data } = await server.post("/music", formdata, {});
     return data;

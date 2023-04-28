@@ -183,3 +183,12 @@ export const changeLove = async (_id) => {
     throw Error(message);
   }
 };
+export const createPayment = async (body) => {
+  try {
+    const { data } = await spotifyApi.post("/v1/payment/createurl", body);
+    return data;
+  } catch (error) {
+    const message = error?.response?.data?.message || error.message;
+    throw Error(message);
+  }
+};

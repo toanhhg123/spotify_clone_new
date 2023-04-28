@@ -29,7 +29,6 @@ const Login = () => {
       toast.error(error.message);
     }
   };
-  console.log(user);
 
   const token = Cookies.get("accessToken");
   if (token) return <Navigate to={"/"} />;

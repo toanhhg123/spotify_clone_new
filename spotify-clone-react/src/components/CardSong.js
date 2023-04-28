@@ -77,6 +77,7 @@ const CardSong = ({ song }) => {
           handleSubmit={handleAddMusicToPlaylist}
         />
       )}
+      {song.isVip && <div className="vip__tag">Vip</div>}
 
       <img src={`${process.env.REACT_APP_BASE_API}/img/${song.image}`} alt="" />
       <h6>{song.title}</h6>
@@ -125,6 +126,17 @@ const SongCard = styled.div`
   }
   &.list-song-card:hover {
     background: #282828;
+  }
+
+  .vip__tag {
+    background-color: #1ed760;
+    padding: 5px;
+    font-weight: 600;
+    border-radius: 3px;
+    width: max-content;
+    position: absolute;
+    right: 5px;
+    top: 5px;
   }
 
   @keyframes fadeIn {
